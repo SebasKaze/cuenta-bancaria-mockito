@@ -1,0 +1,311 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------< com.academia:cuenta-bancaria-mockito >----------------
+[INFO] Building cuenta-bancaria-mockito 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ cuenta-bancaria-mockito ---
+[INFO] skip non existing resourceDirectory /home/sebastian/cuenta-bancaria-mockito/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ cuenta-bancaria-mockito ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 14 source files with javac [debug release 17] to target/classes
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ cuenta-bancaria-mockito ---
+[INFO] skip non existing resourceDirectory /home/sebastian/cuenta-bancaria-mockito/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ cuenta-bancaria-mockito ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 9 source files with javac [debug release 17] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ cuenta-bancaria-mockito ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] +--MP-2 · Stubs: el mock responde lo que tú decides - 1.116 s
+[INFO] |  +-- [OK] una operación sospechosa se rechaza y la cuenta no cambia - 1.010 s
+[INFO] |  +-- [OK] pasar el límite diario se rechaza y la cuenta no cambia - 0.032 s
+[INFO] |  +-- [OK] si el repositorio no la encuentra, CuentaNoEncontradaException - 0.006 s
+[INFO] |  +-- [OK] un mock sin configurar devuelve «vacío»: Optional.empty - 0.005 s
+[INFO] |  +-- [OK] consultar el saldo devuelve el de la cuenta que da el repositorio - 0.003 s
+[INFO] |  +-- [OK] si el repositorio no responde, su excepción sale tal cual - 0.005 s
+[INFO] |  '-- [XX] un retiro normal baja el saldo - 0.011 s
+[INFO] +--MP-6 · El límite diario con un reloj fijo (Clock.fixed, no un mock) - 0.029 s
+[INFO] |  +-- [XX] al día siguiente el límite empieza de cero - 0.013 s
+[INFO] |  +-- [OK] el límite usa lo retirado en la fecha del reloj del cajero - 0.005 s
+[INFO] |  '-- [OK] a las 21:30 de CDMX todavía es el mismo día (aunque en UTC ya sea el siguiente) - 0.005 s
+[INFO] +--MP-1 · Cajero con dobles hechos a mano - 0.017 s
+[INFO] |  +-- [OK] una cuenta que no existe se rechaza y no manda SMS - 0.004 s
+[INFO] |  '-- [XX] un retiro baja el saldo, guarda la cuenta y manda un SMS - 0.007 s
+[INFO] +--MP-3 · Verificar interacciones: qué se llamó, cuántas veces y en qué orden - 0.064 s
+[INFO] |  +-- [XX] si el SMS falla, el retiro ya se hizo y no se deshace - 0.019 s
+[INFO] |  +-- [OK] un retiro guarda la cuenta una vez y manda un SMS a esa cuenta - 0.004 s
+[INFO] |  +-- [OK] con una cuenta que no existe, ni antifraude ni SMS - 0.005 s
+[INFO] |  +-- [XX] el SMS dice el monto y el saldo que queda - 0.007 s
+[INFO] |  +-- [OK] una operación sospechosa no cambia la cuenta, no la guarda y no manda SMS - 0.006 s
+[INFO] |  +-- [XX] si la cuenta no tiene saldo, no se guarda ni se manda SMS - 0.005 s
+[INFO] |  '-- [OK] el orden: antifraude, después guardar, después SMS - 0.007 s
+[INFO] +--MP-6 · Una prueba inútil (mockea lo que debería probar) - 0.093 s
+[INFO] |  '-- [OK] después de retirar 500.00 quedan 1500.00… ¿seguro? - 0.090 s
+[INFO] +--MP-4 · Lo mismo, con @Mock y @Captor - 0.055 s
+[INFO] |  +-- [XX] el SMS dice el monto y el saldo que queda - 0.033 s
+[INFO] |  +-- [OK] una operación sospechosa se rechaza y la cuenta no cambia - 0.009 s
+[INFO] |  '-- [OK] con una cuenta que no existe, ni antifraude ni SMS - 0.006 s
+[INFO] +--MP-5 · Quejas sobre el cajero (cada una reproducida con una prueba) - 0.029 s
+[INFO] |  +-- [OK] Queja 2: si la operación es sospechosa, el dinero no sale de la cuenta - 0.005 s
+[INFO] |  +-- [OK] Queja 3: cada retiro se guarda UNA sola vez - 0.004 s
+[INFO] |  +-- [OK] Queja 4: si el antifraude no responde, el retiro se rechaza - 0.005 s
+[INFO] |  +-- [XX] Queja 5: se pueden retirar justo los $8,000.00 del día - 0.004 s
+[INFO] |  '-- [XX] Queja 1: no llega SMS de un retiro que se rechazó por falta de saldo - 0.004 s
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   AnotacionesTest.textoDelSms:59 expected: <Retiro de $500.00. Saldo: $1500.00> but was: <Retiro de $500.00. Saldo: $2000.00>
+[ERROR]   CajeroConDoblesAManoTest.retiroExitoso:43 Multiple Failures (2 failures)
+	org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+	org.opentest4j.AssertionFailedError: expected: <[001: Retiro de $500.00. Saldo: $1500.00]> but was: <[001: Retiro de $500.00. Saldo: $2000.00]>
+[ERROR]   InteraccionesTest.sinSaldo:134 Expected com.academia.banco.SaldoInsuficienteException to be thrown, but nothing was thrown.
+[ERROR]   InteraccionesTest.smsContenidoCorrecto:70 expected: <Retiro de $500.00. Saldo: $1500.00> but was: <Retiro de $500.00. Saldo: $2000.00>
+[ERROR]   InteraccionesTest.smsFallaNoDeshaceRetiro:125 Multiple Failures (1 failure)
+	org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+[ERROR]   QuejasCajeroTest.limiteDiarioExacto:99 expected: <1500.00> but was: <2000.00>
+[ERROR]   QuejasCajeroTest.sinSmsSiNoHaySaldo:49 Expected com.academia.banco.SaldoInsuficienteException to be thrown, but nothing was thrown.
+[ERROR]   RelojTest.alDiaSiguienteLimiteEnCero:75 expected: <1500.00> but was: <2000.00>
+[ERROR]   StubsTest.retiroNormal:95 expected: <1500.00> but was: <2000.00>
+[INFO] 
+[ERROR] Tests run: 28, Failures: 9, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.052 s
+[INFO] Finished at: 2026-10-01T16:39:41-06:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.6:test (default-test) on project cuenta-bancaria-mockito: There are test failures.
+[ERROR] 
+[ERROR] See /home/sebastian/cuenta-bancaria-mockito/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+===== DETALLE de cada clase con fallas (target/surefire-reports) =====
+-------------------------------------------------------------------------------
+Test set: com.academia.banco.AnotacionesTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.055 s <<< FAILURE! -- in com.academia.banco.AnotacionesTest
+com.academia.banco.AnotacionesTest.textoDelSms -- Time elapsed: 0.033 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <Retiro de $500.00. Saldo: $1500.00> but was: <Retiro de $500.00. Saldo: $2000.00>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.academia.banco.AnotacionesTest.textoDelSms(AnotacionesTest.java:59)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.academia.banco.AnotacionesTest.operacionSospechosa -- Time elapsed: 0.009 s
+com.academia.banco.AnotacionesTest.cuentaNoExiste -- Time elapsed: 0.006 s
+-------------------------------------------------------------------------------
+Test set: com.academia.banco.CajeroConDoblesAManoTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.017 s <<< FAILURE! -- in com.academia.banco.CajeroConDoblesAManoTest
+com.academia.banco.CajeroConDoblesAManoTest.cuentaNoExisteSeRechaza -- Time elapsed: 0.004 s
+com.academia.banco.CajeroConDoblesAManoTest.retiroExitoso -- Time elapsed: 0.007 s <<< FAILURE!
+org.opentest4j.MultipleFailuresError: 
+Multiple Failures (2 failures)
+	org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+	org.opentest4j.AssertionFailedError: expected: <[001: Retiro de $500.00. Saldo: $1500.00]> but was: <[001: Retiro de $500.00. Saldo: $2000.00]>
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:80)
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:44)
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:38)
+	at org.junit.jupiter.api.Assertions.assertAll(Assertions.java:2944)
+	at com.academia.banco.CajeroConDoblesAManoTest.retiroExitoso(CajeroConDoblesAManoTest.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	Suppressed: org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+		at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+		at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+		at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+		at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+		at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+		at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+		at com.academia.banco.CajeroConDoblesAManoTest.lambda$retiroExitoso$1(CajeroConDoblesAManoTest.java:44)
+		at org.junit.jupiter.api.AssertAll.lambda$assertAll$0(AssertAll.java:68)
+		at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+		at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+		at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+		at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+		at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+		at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+		at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)
+		at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:77)
+		... 7 more
+	Suppressed: org.opentest4j.AssertionFailedError: expected: <[001: Retiro de $500.00. Saldo: $1500.00]> but was: <[001: Retiro de $500.00. Saldo: $2000.00]>
+		at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+		at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+		at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+		at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+		at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+		at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+		at com.academia.banco.CajeroConDoblesAManoTest.lambda$retiroExitoso$3(CajeroConDoblesAManoTest.java:46)
+		at org.junit.jupiter.api.AssertAll.lambda$assertAll$0(AssertAll.java:68)
+		at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+		at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+		at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+		at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+		at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+		at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+		at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)
+		at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:77)
+		... 7 more
+
+-------------------------------------------------------------------------------
+Test set: com.academia.banco.InteraccionesTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.064 s <<< FAILURE! -- in com.academia.banco.InteraccionesTest
+com.academia.banco.InteraccionesTest.smsFallaNoDeshaceRetiro -- Time elapsed: 0.019 s <<< FAILURE!
+org.opentest4j.MultipleFailuresError: 
+Multiple Failures (1 failure)
+	org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:80)
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:44)
+	at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:38)
+	at org.junit.jupiter.api.Assertions.assertAll(Assertions.java:2944)
+	at com.academia.banco.InteraccionesTest.smsFallaNoDeshaceRetiro(InteraccionesTest.java:125)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	Suppressed: org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+		at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+		at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+		at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+		at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+		at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+		at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+		at com.academia.banco.InteraccionesTest.lambda$smsFallaNoDeshaceRetiro$6(InteraccionesTest.java:126)
+		at org.junit.jupiter.api.AssertAll.lambda$assertAll$0(AssertAll.java:68)
+		at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+		at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:1024)
+		at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+		at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+		at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+		at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+		at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)
+		at org.junit.jupiter.api.AssertAll.assertAll(AssertAll.java:77)
+		... 7 more
+
+com.academia.banco.InteraccionesTest.retiroGuardaYMandaSms -- Time elapsed: 0.004 s
+com.academia.banco.InteraccionesTest.cuentaInexistente -- Time elapsed: 0.005 s
+com.academia.banco.InteraccionesTest.smsContenidoCorrecto -- Time elapsed: 0.007 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <Retiro de $500.00. Saldo: $1500.00> but was: <Retiro de $500.00. Saldo: $2000.00>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.academia.banco.InteraccionesTest.smsContenidoCorrecto(InteraccionesTest.java:70)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.academia.banco.InteraccionesTest.operacionSospechosa -- Time elapsed: 0.006 s
+com.academia.banco.InteraccionesTest.sinSaldo -- Time elapsed: 0.005 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected com.academia.banco.SaldoInsuficienteException to be thrown, but nothing was thrown.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:73)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.academia.banco.InteraccionesTest.sinSaldo(InteraccionesTest.java:134)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.academia.banco.InteraccionesTest.ordenDeInteracciones -- Time elapsed: 0.007 s
+-------------------------------------------------------------------------------
+Test set: com.academia.banco.QuejasCajeroTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.029 s <<< FAILURE! -- in com.academia.banco.QuejasCajeroTest
+com.academia.banco.QuejasCajeroTest.sospechosaNoMueveDinero -- Time elapsed: 0.005 s
+com.academia.banco.QuejasCajeroTest.seGuardaUnaVez -- Time elapsed: 0.004 s
+com.academia.banco.QuejasCajeroTest.antifraudeCaidoRechaza -- Time elapsed: 0.005 s
+com.academia.banco.QuejasCajeroTest.limiteDiarioExacto -- Time elapsed: 0.004 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.academia.banco.QuejasCajeroTest.limiteDiarioExacto(QuejasCajeroTest.java:99)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.academia.banco.QuejasCajeroTest.sinSmsSiNoHaySaldo -- Time elapsed: 0.004 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Expected com.academia.banco.SaldoInsuficienteException to be thrown, but nothing was thrown.
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:73)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3128)
+	at com.academia.banco.QuejasCajeroTest.sinSmsSiNoHaySaldo(QuejasCajeroTest.java:49)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+-------------------------------------------------------------------------------
+Test set: com.academia.banco.RelojTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.029 s <<< FAILURE! -- in com.academia.banco.RelojTest
+com.academia.banco.RelojTest.alDiaSiguienteLimiteEnCero -- Time elapsed: 0.013 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.academia.banco.RelojTest.alDiaSiguienteLimiteEnCero(RelojTest.java:75)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.academia.banco.RelojTest.usaLaFechaDelReloj -- Time elapsed: 0.005 s
+com.academia.banco.RelojTest.mismoDiaEnCDMX -- Time elapsed: 0.005 s
+-------------------------------------------------------------------------------
+Test set: com.academia.banco.StubsTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.116 s <<< FAILURE! -- in com.academia.banco.StubsTest
+com.academia.banco.StubsTest.sospechosa -- Time elapsed: 1.010 s
+com.academia.banco.StubsTest.limiteDiario -- Time elapsed: 0.032 s
+com.academia.banco.StubsTest.cuentaInexistente -- Time elapsed: 0.006 s
+com.academia.banco.StubsTest.sinConfigurar -- Time elapsed: 0.005 s
+com.academia.banco.StubsTest.consultarSaldo -- Time elapsed: 0.003 s
+com.academia.banco.StubsTest.repositorioCaido -- Time elapsed: 0.005 s
+com.academia.banco.StubsTest.retiroNormal -- Time elapsed: 0.011 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1500.00> but was: <2000.00>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.academia.banco.StubsTest.retiroNormal(StubsTest.java:95)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
